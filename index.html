@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shaurya's Portfolio</title>
+    <title>Shaurya's Portfolio & Car Simulator</title>
     <!-- QR Code Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
@@ -27,7 +27,6 @@
             color: #f8fafc;
         }
 
-        /* Nav */
         nav {
             display: flex;
             justify-content: space-between;
@@ -58,11 +57,10 @@
             padding: 0 20px;
         }
 
-        /* Profile */
         .profile-img {
             border-radius: 50%;
-            width: 130px;
-            height: 130px;
+            width: 120px;
+            height: 120px;
             object-fit: cover;
             margin: 15px auto;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -78,7 +76,7 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 10px;
-            margin: 20px 0;
+            margin: 15px 0 30px;
         }
 
         .skill-tag {
@@ -90,18 +88,12 @@
             font-weight: 600;
         }
 
-        .section-title {
-            margin: 40px 0 15px;
-            font-size: 22px;
-        }
-
-        /* Interactive Box / Cards */
         .card-box {
             background: #ffffff;
             padding: 24px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            margin: 15px 0;
+            margin: 20px 0;
             text-align: left;
             transition: background-color 0.3s;
         }
@@ -110,6 +102,82 @@
             background: #1e293b;
         }
 
+        /* --- Car Simulator UI --- */
+        .track-container {
+            background: #334155;
+            height: 110px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 5px dashed #fbbf24;
+            margin: 15px 0;
+        }
+
+        .car-sprite {
+            position: absolute;
+            bottom: 12px;
+            left: 0;
+            font-size: 42px;
+            transition: left 0.15s linear;
+        }
+
+        .dashboard {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(59, 130, 246, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .dash-item span {
+            color: #2563eb;
+            font-size: 18px;
+        }
+
+        body.dark-mode .dash-item span {
+            color: #60a5fa;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-ctrl {
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.1s, opacity 0.2s;
+        }
+
+        .btn-ctrl:active {
+            transform: scale(0.96);
+        }
+
+        .btn-green { background-color: #10b981; }
+        .btn-blue { background-color: #3b82f6; }
+        .btn-yellow { background-color: #f59e0b; }
+        .btn-red { background-color: #ef4444; }
+
+        .log-box {
+            font-family: monospace;
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 12px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        /* Common Elements */
         input {
             width: 100%;
             padding: 10px;
@@ -118,7 +186,6 @@
             font-size: 14px;
             background: #f8fafc;
             color: inherit;
-            margin-bottom: 12px;
         }
 
         body.dark-mode input {
@@ -126,49 +193,29 @@
             border-color: #334155;
         }
 
-        input:focus {
-            outline: none;
-            border-color: #3b82f6;
-        }
-
         .btn {
             background-color: #3b82f6;
             color: white;
-            padding: 10px 18px;
-            font-size: 14px;
-            font-weight: 600;
+            padding: 8px 16px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            font-weight: 600;
         }
 
-        .btn:hover {
-            background-color: #2563eb;
-        }
-
-        /* QR Code Container */
         #qrcode {
             display: flex;
             justify-content: center;
-            margin-top: 15px;
+            margin: 15px auto 0;
             padding: 10px;
             background: white;
             border-radius: 8px;
             width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
         }
 
-        /* To-Do List Styles */
         .todo-input-group {
             display: flex;
             gap: 10px;
-        }
-
-        .todo-input-group input {
-            flex: 1;
-            margin-bottom: 0;
         }
 
         .todo-list {
@@ -181,19 +228,13 @@
             justify-content: space-between;
             align-items: center;
             background: #f1f5f9;
-            padding: 10px 12px;
+            padding: 8px 12px;
             border-radius: 6px;
             margin-bottom: 8px;
-            font-size: 14px;
         }
 
         body.dark-mode .todo-item {
             background: #0f172a;
-        }
-
-        .todo-item.done {
-            text-decoration: line-through;
-            opacity: 0.6;
         }
 
         .del-btn {
@@ -203,7 +244,6 @@
             padding: 4px 8px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 12px;
         }
     </style>
 </head>
@@ -212,14 +252,13 @@
     <nav>
         <h2>Shaurya</h2>
         <div class="nav-links">
-            <a href="#about">About</a>
+            <a href="#simulator">Car Sim</a>
             <a href="#tools">Tools</a>
         </div>
         <button id="themeBtn" class="btn" onclick="toggleTheme()">🌙 Mode</button>
     </nav>
 
     <div class="container">
-        <!-- About Section -->
         <section id="about">
             <img class="profile-img" src="https://picsum.photos/200" alt="Profile Picture">
             <h1>Hi, I'm Shaurya 👋</h1>
@@ -233,23 +272,44 @@
             </div>
         </section>
 
-        <!-- Tools Section -->
-        <section id="tools">
-            <!-- 1. QR Code Generator -->
-            <h3 class="section-title">⚡ Instant QR Code Generator</h3>
+        <!-- 🚗 Visual Car Simulator Section -->
+        <section id="simulator">
+            <h3 style="margin-top: 20px;">🚗 Interactive Car Simulator</h3>
             <div class="card-box">
-                <p style="font-size: 13px; margin-bottom: 10px; opacity: 0.8;">Koi bhi text ya link likhein aur instantly QR Code banayein:</p>
-                <input type="text" id="qrText" placeholder="e.g. https://google.com ya apna naam">
-                <button class="btn" style="width: 100%;" onclick="generateQR()">Generate QR Code</button>
+                <div class="dashboard">
+                    <div class="dash-item">Status: <span id="dashStatus">OFF</span></div>
+                    <div class="dash-item">Speed: <span id="dashSpeed">0</span> km/h</div>
+                </div>
+
+                <div class="track-container" id="track">
+                    <div class="car-sprite" id="carIcon">🏎️</div>
+                </div>
+
+                <div class="controls-grid">
+                    <button class="btn-ctrl btn-green" onclick="carStart()">Start Engine</button>
+                    <button class="btn-ctrl btn-blue" onclick="carAccelerate()">Accelerate (+20)</button>
+                    <button class="btn-ctrl btn-yellow" onclick="carBrake()">Brake (-20)</button>
+                    <button class="btn-ctrl btn-red" onclick="carStop()">Stop Engine</button>
+                </div>
+
+                <div class="log-box" id="carLog">Ready: Start the engine to drive.</div>
+            </div>
+        </section>
+
+        <!-- Tools: QR & To-Do -->
+        <section id="tools">
+            <h3 style="margin-top: 25px;">⚡ Instant QR Code Generator</h3>
+            <div class="card-box">
+                <input type="text" id="qrText" placeholder="Enter text or URL...">
+                <button class="btn" style="width: 100%; margin-top: 8px;" onclick="generateQR()">Generate QR Code</button>
                 <div id="qrcode"></div>
             </div>
 
-            <!-- 2. To-Do List -->
-            <h3 class="section-title">📝 My Interactive To-Do List</h3>
+            <h3 style="margin-top: 25px;">📝 Interactive To-Do List</h3>
             <div class="card-box">
                 <div class="todo-input-group">
-                    <input type="text" id="todoInput" placeholder="Naya task likhein...">
-                    <button class="btn" onclick="addTodo()">Add Task</button>
+                    <input type="text" id="todoInput" placeholder="New task...">
+                    <button class="btn" onclick="addTodo()">Add</button>
                 </div>
                 <ul class="todo-list" id="todoList"></ul>
             </div>
@@ -257,7 +317,85 @@
     </div>
 
     <script>
-        // Theme Toggle
+        // --- Car Simulator Logic ---
+        let isEngineRunning = false;
+        let carSpeed = 0;
+        let carPosition = 0;
+        let driveInterval = null;
+
+        const carIcon = document.getElementById("carIcon");
+        const dashStatus = document.getElementById("dashStatus");
+        const dashSpeed = document.getElementById("dashSpeed");
+        const carLog = document.getElementById("carLog");
+
+        function updateUI() {
+            dashSpeed.innerText = carSpeed;
+            dashStatus.innerText = isEngineRunning ? "RUNNING" : "OFF";
+            dashStatus.style.color = isEngineRunning ? "#10b981" : "#ef4444";
+        }
+
+        function carStart() {
+            if (!isEngineRunning) {
+                isEngineRunning = true;
+                carLog.innerText = "Engine started. Ready to accelerate!";
+                updateUI();
+            } else {
+                carLog.innerText = "Engine is already running.";
+            }
+        }
+
+        function carAccelerate() {
+            if (!isEngineRunning) {
+                carLog.innerText = "Cannot move! Start the engine first.";
+                return;
+            }
+            carSpeed += 20;
+            carLog.innerText = `Accelerating! Current speed: ${carSpeed} km/h`;
+            updateUI();
+            startMovingAnimation();
+        }
+
+        function carBrake() {
+            if (carSpeed > 0) {
+                carSpeed = Math.max(0, carSpeed - 20);
+                carLog.innerText = `Braking. Speed reduced to ${carSpeed} km/h`;
+                updateUI();
+                if (carSpeed === 0 && driveInterval) {
+                    clearInterval(driveInterval);
+                    driveInterval = null;
+                }
+            } else {
+                carLog.innerText = "Car is already stopped.";
+            }
+        }
+
+        function carStop() {
+            if (carSpeed > 0) {
+                carLog.innerText = `Cannot turn off engine while moving at ${carSpeed} km/h! Apply brake first.`;
+                return;
+            }
+            if (isEngineRunning) {
+                isEngineRunning = false;
+                carLog.innerText = "Engine turned off.";
+                updateUI();
+            }
+        }
+
+        function startMovingAnimation() {
+            if (driveInterval) return;
+            const track = document.getElementById("track");
+            driveInterval = setInterval(() => {
+                if (carSpeed > 0) {
+                    carPosition += (carSpeed / 10);
+                    if (carPosition > track.clientWidth) {
+                        carPosition = -40; // loop back
+                    }
+                    carIcon.style.left = carPosition + "px";
+                }
+            }, 50);
+        }
+
+        // --- Theme Toggle ---
         function toggleTheme() {
             document.body.classList.toggle("dark-mode");
             const btn = document.getElementById("themeBtn");
@@ -272,46 +410,34 @@
             }
         }
 
-        // QR Code Logic
+        // --- QR Code ---
         let qrcodeInstance = null;
         function generateQR() {
             const text = document.getElementById("qrText").value.trim();
             const qrContainer = document.getElementById("qrcode");
-            
-            if (text === "") {
-                alert("Pehle koi text ya URL enter karein!");
-                return;
-            }
-
+            if (!text) return alert("Please enter text or a URL!");
             qrContainer.innerHTML = "";
             qrcodeInstance = new QRCode(qrContainer, {
                 text: text,
-                width: 160,
-                height: 160,
+                width: 150,
+                height: 150,
                 colorDark : "#000000",
                 colorLight : "#ffffff"
             });
         }
 
-        // To-Do List Logic
+        // --- To-Do List ---
         function addTodo() {
             const input = document.getElementById("todoInput");
             const text = input.value.trim();
-
-            if (text === "") {
-                alert("Task khali nahi ho sakta!");
-                return;
-            }
-
+            if (!text) return alert("Task cannot be empty!");
             const list = document.getElementById("todoList");
             const li = document.createElement("li");
             li.className = "todo-item";
-            
             li.innerHTML = `
-                <span onclick="this.parentElement.classList.toggle('done')" style="cursor: pointer;">${text}</span>
+                <span onclick="this.parentElement.style.textDecoration = this.parentElement.style.textDecoration === 'line-through' ? 'none' : 'line-through'" style="cursor: pointer;">${text}</span>
                 <button class="del-btn" onclick="this.parentElement.remove()">Delete</button>
             `;
-
             list.appendChild(li);
             input.value = "";
         }
