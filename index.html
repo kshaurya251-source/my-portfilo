@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shaurya's Portfolio</title>
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -25,7 +27,7 @@
             color: #f8fafc;
         }
 
-        /* Navigation Bar */
+        /* Nav */
         nav {
             display: flex;
             justify-content: space-between;
@@ -50,11 +52,6 @@
             font-weight: 600;
         }
 
-        .nav-links a:hover {
-            text-decoration: underline;
-        }
-
-        /* Container */
         .container {
             max-width: 680px;
             margin: 30px auto;
@@ -93,100 +90,51 @@
             font-weight: 600;
         }
 
-        /* Sections & Cards */
         .section-title {
-            margin: 35px 0 15px;
+            margin: 40px 0 15px;
             font-size: 22px;
-            position: relative;
         }
 
-        .project-card {
-            background: #ffffff;
-            padding: 18px;
-            border-radius: 10px;
-            margin-bottom: 14px;
-            text-align: left;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
-            border-left: 4px solid #3b82f6;
-            transition: transform 0.2s, background-color 0.3s;
-        }
-
-        body.dark-mode .project-card {
-            background: #1e293b;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .project-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .project-card h4 {
-            color: #2563eb;
-            margin-bottom: 4px;
-        }
-
-        body.dark-mode .project-card h4 {
-            color: #60a5fa;
-        }
-
-        .project-card p {
-            font-size: 14px;
-            opacity: 0.85;
-        }
-
-        /* Contact Form */
-        .contact-box {
+        /* Interactive Box / Cards */
+        .card-box {
             background: #ffffff;
             padding: 24px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            margin: 20px 0 50px;
+            margin: 15px 0;
             text-align: left;
             transition: background-color 0.3s;
         }
 
-        body.dark-mode .contact-box {
+        body.dark-mode .card-box {
             background: #1e293b;
         }
 
-        .form-group {
-            margin-bottom: 14px;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        input, textarea {
+        input {
             width: 100%;
             padding: 10px;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
-            font-family: inherit;
             font-size: 14px;
             background: #f8fafc;
             color: inherit;
+            margin-bottom: 12px;
         }
 
-        body.dark-mode input, 
-        body.dark-mode textarea {
+        body.dark-mode input {
             background: #0f172a;
             border-color: #334155;
         }
 
-        input:focus, textarea:focus {
+        input:focus {
             outline: none;
             border-color: #3b82f6;
         }
 
-        /* Buttons */
         .btn {
             background-color: #3b82f6;
             color: white;
-            padding: 10px 20px;
+            padding: 10px 18px;
             font-size: 14px;
             font-weight: 600;
             border: none;
@@ -199,33 +147,73 @@
             background-color: #2563eb;
         }
 
-        #themeBtn {
-            padding: 7px 14px;
-            font-size: 13px;
+        /* QR Code Container */
+        #qrcode {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        /* Notification Alert */
-        #alertMsg {
-            display: none;
-            padding: 12px;
+        /* To-Do List Styles */
+        .todo-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .todo-input-group input {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .todo-list {
+            list-style: none;
             margin-top: 15px;
+        }
+
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 10px 12px;
             border-radius: 6px;
-            background-color: #10b981;
-            color: white;
+            margin-bottom: 8px;
             font-size: 14px;
-            text-align: center;
+        }
+
+        body.dark-mode .todo-item {
+            background: #0f172a;
+        }
+
+        .todo-item.done {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .del-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Navigation -->
     <nav>
         <h2>Shaurya</h2>
         <div class="nav-links">
             <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
+            <a href="#tools">Tools</a>
         </div>
         <button id="themeBtn" class="btn" onclick="toggleTheme()">🌙 Mode</button>
     </nav>
@@ -235,7 +223,7 @@
         <section id="about">
             <img class="profile-img" src="https://picsum.photos/200" alt="Profile Picture">
             <h1>Hi, I'm Shaurya 👋</h1>
-            <p style="margin-top: 6px; opacity: 0.85;">Aspiring Web Developer & Python Programmer</p>
+            <p style="margin-top: 6px; opacity: 0.85;">Web Developer & Python Programmer</p>
 
             <div class="skills">
                 <span class="skill-tag">HTML5</span>
@@ -245,51 +233,31 @@
             </div>
         </section>
 
-        <!-- Projects Section -->
-        <section id="projects">
-            <h3 class="section-title">Featured Projects</h3>
-            
-            <div class="project-card">
-                <h4>🚗 Python Car Simulator</h4>
-                <p>An interactive Object-Oriented vehicle controller that handles acceleration, braking, engine status, and terminal commands.</p>
+        <!-- Tools Section -->
+        <section id="tools">
+            <!-- 1. QR Code Generator -->
+            <h3 class="section-title">⚡ Instant QR Code Generator</h3>
+            <div class="card-box">
+                <p style="font-size: 13px; margin-bottom: 10px; opacity: 0.8;">Koi bhi text ya link likhein aur instantly QR Code banayein:</p>
+                <input type="text" id="qrText" placeholder="e.g. https://google.com ya apna naam">
+                <button class="btn" style="width: 100%;" onclick="generateQR()">Generate QR Code</button>
+                <div id="qrcode"></div>
             </div>
 
-            <div class="project-card">
-                <h4>🌐 Personal Web Portfolio</h4>
-                <p>A responsive landing page featuring dark/light theme switching, CSS animations, and dynamic forms built using HTML, CSS, and JS.</p>
-            </div>
-        </section>
-
-        <!-- Contact Form Section -->
-        <section id="contact">
-            <h3 class="section-title">Get In Touch</h3>
-            <div class="contact-box">
-                <form id="contactForm" onsubmit="handleFormSubmit(event)">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" placeholder="Enter your name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="Enter your email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" rows="3" placeholder="Write your message..." required></textarea>
-                    </div>
-
-                    <button type="submit" class="btn" style="width: 100%;">Send Message</button>
-                </form>
-
-                <div id="alertMsg">Thank you! Your message has been sent.</div>
+            <!-- 2. To-Do List -->
+            <h3 class="section-title">📝 My Interactive To-Do List</h3>
+            <div class="card-box">
+                <div class="todo-input-group">
+                    <input type="text" id="todoInput" placeholder="Naya task likhein...">
+                    <button class="btn" onclick="addTodo()">Add Task</button>
+                </div>
+                <ul class="todo-list" id="todoList"></ul>
             </div>
         </section>
     </div>
 
-    <!-- JavaScript Logic -->
     <script>
+        // Theme Toggle
         function toggleTheme() {
             document.body.classList.toggle("dark-mode");
             const btn = document.getElementById("themeBtn");
@@ -304,23 +272,48 @@
             }
         }
 
-        function handleFormSubmit(event) {
-            event.preventDefault(); // Prevents page from reloading
+        // QR Code Logic
+        let qrcodeInstance = null;
+        function generateQR() {
+            const text = document.getElementById("qrText").value.trim();
+            const qrContainer = document.getElementById("qrcode");
             
-            const name = document.getElementById("name").value;
-            const alertBox = document.getElementById("alertMsg");
+            if (text === "") {
+                alert("Pehle koi text ya URL enter karein!");
+                return;
+            }
+
+            qrContainer.innerHTML = "";
+            qrcodeInstance = new QRCode(qrContainer, {
+                text: text,
+                width: 160,
+                height: 160,
+                colorDark : "#000000",
+                colorLight : "#ffffff"
+            });
+        }
+
+        // To-Do List Logic
+        function addTodo() {
+            const input = document.getElementById("todoInput");
+            const text = input.value.trim();
+
+            if (text === "") {
+                alert("Task khali nahi ho sakta!");
+                return;
+            }
+
+            const list = document.getElementById("todoList");
+            const li = document.createElement("li");
+            li.className = "todo-item";
             
-            // Show personalized message
-            alertBox.innerText = `Thank you, ${name}! Your message has been received.`;
-            alertBox.style.display = "block";
+            li.innerHTML = `
+                <span onclick="this.parentElement.classList.toggle('done')" style="cursor: pointer;">${text}</span>
+                <button class="del-btn" onclick="this.parentElement.remove()">Delete</button>
+            `;
 
-            // Reset input fields
-            document.getElementById("contactForm").reset();
-
-            // Auto-hide alert after 4 seconds
-            setTimeout(() => {
-                alertBox.style.display = "none";
-            }, 4000);
+            list.appendChild(li);
+            input.value = "";
         }
     </script>
 </body>
