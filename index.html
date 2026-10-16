@@ -444,3 +444,67 @@
     </script>
 </body>
 </html>
+/* Endless Animated Road Track */
+.track-container {
+    background: #334155;
+    height: 110px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    margin: 15px 0;
+    /* Repeating striped road divider in the center */
+    background-image: repeating-linear-gradient(
+        to right,
+        #fbbf24 0px,
+        #fbbf24 30px,
+        transparent 30px,
+        transparent 60px
+    );
+    background-repeat: repeat-x;
+    background-size: 60px 6px;
+    background-position: 0 52px;
+}
+
+/* Fixed car position */
+.car-sprite {
+    position: absolute;
+    bottom: 15px;
+    left: 45%;
+    font-size: 42px;
+    transition: transform 0.1s ease;
+}
+// Endless scrolling road offset
+let roadOffset = 0;
+
+function startMovingAnimation() {
+    if (driveInterval) return;
+    const track = document.getElementById("track");
+
+    driveInterval = setInterval(() => {
+        if (carSpeed > 0) {
+            // Road moves backward to simulate forward car motion
+            roadOffset -= carSpeed * 0.4;
+            track.style.backgroundPosition = `${roadOffset}px 52px`;
+
+            // Subtle driving engine shake effect
+            const bounce = Math.sin(Date.now() / 60) * 1.5;
+            carIcon.style.transform = `translateY(${bounce}px)`;
+        }
+    }, 30);
+}
+
+function carBrake() {
+    if (carSpeed > 0) {
+        carSpeed = Math.max(0, carSpeed - 20);
+        carLog.innerText = `Braking. Speed reduced to ${carSpeed} km/h`;
+        updateUI();
+
+        if (carSpeed === 0 && driveInterval) {
+            clearInterval(driveInterval);
+            driveInterval = null;
+            carIcon.style.transform = "translateY(0px)";
+        }
+    } else {
+        carLog.innerText = "Car is already stopped.";
+    }
+}
