@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaurya's Portfolio</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #2d3748;
+            text-align: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
+        }
+
+        body.dark-mode {
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        /* Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: background-color 0.3s ease;
+        }
+
+        body.dark-mode nav {
+            background: #1e293b;
+        }
+
+        .nav-links a {
+            margin: 0 12px;
+            text-decoration: none;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            max-width: 680px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Profile */
+        .profile-img {
+            border-radius: 50%;
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            margin: 15px auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.08);
+        }
+
+        .skills {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .skill-tag {
+            background: #3b82f6;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Sections & Cards */
+        .section-title {
+            margin: 35px 0 15px;
+            font-size: 22px;
+            position: relative;
+        }
+
+        .project-card {
+            background: #ffffff;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            text-align: left;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+            border-left: 4px solid #3b82f6;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        body.dark-mode .project-card {
+            background: #1e293b;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .project-card h4 {
+            color: #2563eb;
+            margin-bottom: 4px;
+        }
+
+        body.dark-mode .project-card h4 {
+            color: #60a5fa;
+        }
+
+        .project-card p {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        /* Contact Form */
+        .contact-box {
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin: 20px 0 50px;
+            text-align: left;
+            transition: background-color 0.3s;
+        }
+
+        body.dark-mode .contact-box {
+            background: #1e293b;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            background: #f8fafc;
+            color: inherit;
+        }
+
+        body.dark-mode input, 
+        body.dark-mode textarea {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #2563eb;
+        }
+
+        #themeBtn {
+            padding: 7px 14px;
+            font-size: 13px;
+        }
+
+        /* Notification Alert */
+        #alertMsg {
+            display: none;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 6px;
+            background-color: #10b981;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav>
+        <h2>Shaurya</h2>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <button id="themeBtn" class="btn" onclick="toggleTheme()">🌙 Mode</button>
+    </nav>
+
+    <div class="container">
+        <!-- About Section -->
+        <section id="about">
+            <img class="profile-img" src="https://picsum.photos/200" alt="Profile Picture">
+            <h1>Hi, I'm Shaurya 👋</h1>
+            <p style="margin-top: 6px; opacity: 0.85;">Aspiring Web Developer & Python Programmer</p>
+
+            <div class="skills">
+                <span class="skill-tag">HTML5</span>
+                <span class="skill-tag">CSS3</span>
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">Python</span>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <h3 class="section-title">Featured Projects</h3>
+            
+            <div class="project-card">
+                <h4>🚗 Python Car Simulator</h4>
+                <p>An interactive Object-Oriented vehicle controller that handles acceleration, braking, engine status, and terminal commands.</p>
+            </div>
+
+            <div class="project-card">
+                <h4>🌐 Personal Web Portfolio</h4>
+                <p>A responsive landing page featuring dark/light theme switching, CSS animations, and dynamic forms built using HTML, CSS, and JS.</p>
+            </div>
+        </section>
+
+        <!-- Contact Form Section -->
+        <section id="contact">
+            <h3 class="section-title">Get In Touch</h3>
+            <div class="contact-box">
+                <form id="contactForm" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" placeholder="Enter your name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" rows="3" placeholder="Write your message..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+                </form>
+
+                <div id="alertMsg">Thank you! Your message has been sent.</div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+            const btn = document.getElementById("themeBtn");
+            if (document.body.classList.contains("dark-mode")) {
+                btn.innerText = "☀️ Mode";
+                btn.style.backgroundColor = "#e2e8f0";
+                btn.style.color = "#0f172a";
+            } else {
+                btn.innerText = "🌙 Mode";
+                btn.style.backgroundColor = "#3b82f6";
+                btn.style.color = "#ffffff";
+            }
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault(); // Prevents page from reloading
+            
+            const name = document.getElementById("name").value;
+            const alertBox = document.getElementById("alertMsg");
+            
+            // Show personalized message
+            alertBox.innerText = `Thank you, ${name}! Your message has been received.`;
+            alertBox.style.display = "block";
+
+            // Reset input fields
+            document.getElementById("contactForm").reset();
+
+            // Auto-hide alert after 4 seconds
+            setTimeout(() => {
+                alertBox.style.display = "none";
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
