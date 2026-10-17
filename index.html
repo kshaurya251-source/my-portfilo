@@ -1,510 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shaurya's Portfolio & Car Simulator</title>
-    <!-- QR Code Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover movies, anime, and Korean dramas on ShauryaFlix.">
+  <title>ShauryaFlix — Discover Your Next Favorite</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f4f8;
-            color: #2d3748;
-            text-align: center;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            line-height: 1.6;
-        }
+    :root {
+      color-scheme: dark;
+      --bg: #09090f;
+      --panel: #151520;
+      --muted: #a5a5b5;
+      --accent: #a855f7;
+    }
 
-        body.dark-mode {
-            background-color: #0f172a;
-            color: #f8fafc;
-        }
+    body {
+      background: var(--bg);
+      color: #f8fafc;
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+    }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background: #ffffff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            transition: background-color 0.3s ease;
-        }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 20px 6%;
+      border-bottom: 1px solid #252535;
+      position: sticky;
+      top: 0;
+      background: #09090fee;
+      z-index: 5;
+      flex-wrap: wrap;
+    }
 
-        body.dark-mode nav {
-            background: #1e293b;
-        }
+    .logo { font-size: 25px; font-weight: 800; }
+    .logo span { color: var(--accent); }
 
-        .nav-links a {
-            margin: 0 12px;
-            text-decoration: none;
-            color: #3b82f6;
-            font-weight: 600;
-        }
+    nav { display: flex; gap: 18px; flex-wrap: wrap; }
+    nav a { color: #dddde8; text-decoration: none; }
+    nav a:hover { color: #c084fc; }
 
-        .container {
-            max-width: 680px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
+    .search {
+      background: #1b1b29;
+      border: 1px solid #373748;
+      border-radius: 9px;
+      color: white;
+      padding: 11px 14px;
+      width: min(240px, 100%);
+    }
 
-        .profile-img {
-            border-radius: 50%;
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            margin: 15px auto;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
+    .hero {
+      padding: 65px 7%;
+      min-height: 300px;
+      background:
+        radial-gradient(ellipse at 80% 20%, #7025a566, transparent 45%),
+        linear-gradient(120deg, #171322, #0b0b12);
+    }
 
-        .profile-img:hover {
-            transform: scale(1.08);
-        }
+    .tag {
+      color: #d8b4fe;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+      font-weight: bold;
+    }
 
-        .skills {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 15px 0 30px;
-        }
+    h1 { font-size: clamp(34px, 6vw, 58px); margin: 12px 0; }
+    .hero p { color: #c2c2d0; max-width: 520px; }
+    .hero button {
+      margin-top: 22px;
+      background: var(--accent);
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 20px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-        .skill-tag {
-            background: #3b82f6;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-        }
+    main { padding: 32px 6%; }
+    .section { margin-bottom: 38px; }
+    .section h2 { margin-bottom: 16px; font-size: 23px; }
 
-        .card-box {
-            background: #ffffff;
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            margin: 20px 0;
-            text-align: left;
-            transition: background-color 0.3s;
-        }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+      gap: 18px;
+    }
 
-        body.dark-mode .card-box {
-            background: #1e293b;
-        }
+    .card {
+      min-width: 0;
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid #29293a;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform .2s, border-color .2s;
+    }
 
-        /* --- Car Simulator UI --- */
-        .track-container {
-            background: #334155;
-            height: 110px;
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 5px dashed #fbbf24;
-            margin: 15px 0;
-        }
+    .card:hover { transform: translateY(-4px); border-color: var(--accent); }
 
-        .car-sprite {
-            position: absolute;
-            bottom: 12px;
-            left: 0;
-            font-size: 42px;
-            transition: left 0.15s linear;
-        }
+    .poster {
+      min-height: 185px;
+      display: grid;
+      place-items: center;
+      padding: 14px;
+      text-align: center;
+      font-size: 35px;
+      background: linear-gradient(145deg, #30204b, #151521 70%);
+    }
 
-        .dashboard {
-            display: flex;
-            justify-content: space-around;
-            background: rgba(59, 130, 246, 0.1);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
+    .poster span { font-size: 16px; font-weight: bold; }
+    .info { padding: 12px; }
+    .info h3 { font-size: 15px; }
+    .info p { color: var(--muted); font-size: 12px; margin-top: 4px; }
 
-        .dash-item span {
-            color: #2563eb;
-            font-size: 18px;
-        }
+    .empty { color: var(--muted); padding: 20px 0; }
+    footer {
+      padding: 26px 6%;
+      border-top: 1px solid #252535;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
 
-        body.dark-mode .dash-item span {
-            color: #60a5fa;
-        }
+    dialog {
+      width: min(500px, 92%);
+      margin: auto;
+      background: #171725;
+      color: white;
+      border: 1px solid #45455b;
+      border-radius: 14px;
+      padding: 25px;
+    }
 
-        .controls-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
+    dialog::backdrop { background: #000b; }
+    dialog h2 { margin-bottom: 10px; }
+    dialog p { color: #c7c7d5; margin-bottom: 18px; }
+    .close {
+      background: var(--accent);
+      color: white;
+      border: 0;
+      padding: 9px 15px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
 
-        .btn-ctrl {
-            padding: 10px;
-            font-size: 14px;
-            font-weight: bold;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            color: white;
-            transition: transform 0.1s, opacity 0.2s;
-        }
-
-        .btn-ctrl:active {
-            transform: scale(0.96);
-        }
-
-        .btn-green { background-color: #10b981; }
-        .btn-blue { background-color: #3b82f6; }
-        .btn-yellow { background-color: #f59e0b; }
-        .btn-red { background-color: #ef4444; }
-
-        .log-box {
-            font-family: monospace;
-            background: #0f172a;
-            color: #38bdf8;
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 12px;
-            font-size: 13px;
-            text-align: center;
-        }
-
-        /* Common Elements */
-        input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            font-size: 14px;
-            background: #f8fafc;
-            color: inherit;
-        }
-
-        body.dark-mode input {
-            background: #0f172a;
-            border-color: #334155;
-        }
-
-        .btn {
-            background-color: #3b82f6;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        #qrcode {
-            display: flex;
-            justify-content: center;
-            margin: 15px auto 0;
-            padding: 10px;
-            background: white;
-            border-radius: 8px;
-            width: fit-content;
-        }
-
-        .todo-input-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .todo-list {
-            list-style: none;
-            margin-top: 15px;
-        }
-
-        .todo-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #f1f5f9;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-bottom: 8px;
-        }
-
-        body.dark-mode .todo-item {
-            background: #0f172a;
-        }
-
-        .del-btn {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    </style>
+    @media (max-width: 520px) {
+      header { padding: 16px 5%; }
+      .search { width: 100%; }
+      .hero { padding: 45px 6%; }
+      main { padding: 26px 5%; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+      .poster { min-height: 155px; }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <a href="#" class="logo" style="color:white;text-decoration:none">Shaurya<span>Flix</span></a>
 
-    <nav>
-        <h2>Shaurya</h2>
-        <div class="nav-links">
-            <a href="#simulator">Car Sim</a>
-            <a href="#tools">Tools</a>
-        </div>
-        <button id="themeBtn" class="btn" onclick="toggleTheme()">🌙 Mode</button>
+    <nav aria-label="Main navigation">
+      <a href="#all">Discover</a>
+      <a href="#movies">Movies</a>
+      <a href="#anime">Anime</a>
+      <a href="#kdrama">K-Drama</a>
     </nav>
 
-    <div class="container">
-        <section id="about">
-            <img class="profile-img" src="https://picsum.photos/200" alt="Profile Picture">
-            <h1>Hi, I'm Shaurya 👋</h1>
-            <p style="margin-top: 6px; opacity: 0.85;">Web Developer & Python Programmer</p>
+    <input class="search" id="search" type="search"
+      placeholder="Search titles..." aria-label="Search titles">
+  </header>
 
-            <div class="skills">
-                <span class="skill-tag">HTML5</span>
-                <span class="skill-tag">CSS3</span>
-                <span class="skill-tag">JavaScript</span>
-                <span class="skill-tag">Python</span>
-            </div>
-        </section>
+  <section class="hero">
+    <div class="tag">Your entertainment universe</div>
+    <h1>Find your next<br>favorite story.</h1>
+    <p>Explore movies, anime, and Korean dramas in one place.
+      Discover something new to watch today.</p>
+    <button onclick="document.querySelector('#all').scrollIntoView({behavior:'smooth'})">
+      Explore catalogue ↓
+    </button>
+  </section>
 
-        <!-- 🚗 Visual Car Simulator Section -->
-        <section id="simulator">
-            <h3 style="margin-top: 20px;">🚗 Interactive Car Simulator</h3>
-            <div class="card-box">
-                <div class="dashboard">
-                    <div class="dash-item">Status: <span id="dashStatus">OFF</span></div>
-                    <div class="dash-item">Speed: <span id="dashSpeed">0</span> km/h</div>
-                </div>
+  <main>
+    <section class="section" id="all">
+      <h2>Explore titles</h2>
+      <div class="grid" id="catalogue"></div>
+      <p class="empty" id="empty" hidden>No titles found. Try another search.</p>
+    </section>
+  </main>
 
-                <div class="track-container" id="track">
-                    <div class="car-sprite" id="carIcon">🏎️</div>
-                </div>
+  <dialog id="details">
+    <h2 id="detailTitle"></h2>
+    <p id="detailDescription"></p>
+    <p id="detailNote"></p>
+    <button class="close" id="closeDialog">Close</button>
+  </dialog>
 
-                <div class="controls-grid">
-                    <button class="btn-ctrl btn-green" onclick="carStart()">Start Engine</button>
-                    <button class="btn-ctrl btn-blue" onclick="carAccelerate()">Accelerate (+20)</button>
-                    <button class="btn-ctrl btn-yellow" onclick="carBrake()">Brake (-20)</button>
-                    <button class="btn-ctrl btn-red" onclick="carStop()">Stop Engine</button>
-                </div>
+  <footer>
+    <p>ShauryaFlix · Discover stories, responsibly.</p>
+    <p>Demo catalogue only. No full-length films are hosted here.</p>
+  </footer>
 
-                <div class="log-box" id="carLog">Ready: Start the engine to drive.</div>
-            </div>
-        </section>
+  <script>
+    // Original demo entries. Replace these with verified,
+    // authorized catalogue entries as the project develops.
+    const titles = [
+      { title: "Sample Movie", category: "Movie", icon: "🎬",
+        description: "A sample entry for your movie catalogue." },
+      { title: "Anime World", category: "Anime", icon: "🌸",
+        description: "A sample entry for your anime catalogue." },
+      { title: "Seoul Stories", category: "K-Drama", icon: "🌃",
+        description: "A sample entry for your Korean drama catalogue." },
+      { title: "Mystery Night", category: "Movie", icon: "🌙",
+        description: "A sample mystery movie entry." },
+      { title: "Beyond the Stars", category: "Anime", icon: "🚀",
+        description: "A sample science-fiction anime entry." },
+      { title: "Winter Memories", category: "K-Drama", icon: "❄️",
+        description: "A sample romantic drama entry." }
+    ];
 
-        <!-- Tools: QR & To-Do -->
-        <section id="tools">
-            <h3 style="margin-top: 25px;">⚡ Instant QR Code Generator</h3>
-            <div class="card-box">
-                <input type="text" id="qrText" placeholder="Enter text or URL...">
-                <button class="btn" style="width: 100%; margin-top: 8px;" onclick="generateQR()">Generate QR Code</button>
-                <div id="qrcode"></div>
-            </div>
+    const catalogue = document.getElementById("catalogue");
+    const search = document.getElementById("search");
+    const empty = document.getElementById("empty");
+    const dialog = document.getElementById("details");
 
-            <h3 style="margin-top: 25px;">📝 Interactive To-Do List</h3>
-            <div class="card-box">
-                <div class="todo-input-group">
-                    <input type="text" id="todoInput" placeholder="New task...">
-                    <button class="btn" onclick="addTodo()">Add</button>
-                </div>
-                <ul class="todo-list" id="todoList"></ul>
-            </div>
-        </section>
-    </div>
+    function renderTitles() {
+      const query = search.value.trim().toLowerCase();
+      const filtered = titles.filter(item =>
+        (item.title + " " + item.category).toLowerCase().includes(query)
+      );
 
-    <script>
-        // --- Car Simulator Logic ---
-        let isEngineRunning = false;
-        let carSpeed = 0;
-        let carPosition = 0;
-        let driveInterval = null;
+      catalogue.replaceChildren();
+      empty.hidden = filtered.length !== 0;
 
-        const carIcon = document.getElementById("carIcon");
-        const dashStatus = document.getElementById("dashStatus");
-        const dashSpeed = document.getElementById("dashSpeed");
-        const carLog = document.getElementById("carLog");
+      filtered.forEach(item => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.tabIndex = 0;
+        card.setAttribute("role", "button");
+        card.setAttribute("aria-label", "View " + item.title);
 
-        function updateUI() {
-            dashSpeed.innerText = carSpeed;
-            dashStatus.innerText = isEngineRunning ? "RUNNING" : "OFF";
-            dashStatus.style.color = isEngineRunning ? "#10b981" : "#ef4444";
+        const poster = document.createElement("div");
+        poster.className = "poster";
+        poster.textContent = item.icon;
+
+        const info = document.createElement("div");
+        info.className = "info";
+
+        const heading = document.createElement("h3");
+        heading.textContent = item.title;
+
+        const category = document.createElement("p");
+        category.textContent = item.category;
+
+        info.append(heading, category);
+        card.append(poster, info);
+
+        function showDetails() {
+          document.getElementById("detailTitle").textContent = item.title;
+          document.getElementById("detailDescription").textContent = item.description;
+          document.getElementById("detailNote").textContent =
+            "Demo entry. Authorized watch links and playback can be added later.";
+          dialog.showModal();
         }
 
-        function carStart() {
-            if (!isEngineRunning) {
-                isEngineRunning = true;
-                carLog.innerText = "Engine started. Ready to accelerate!";
-                updateUI();
-            } else {
-                carLog.innerText = "Engine is already running.";
-            }
-        }
+        card.addEventListener("click", showDetails);
+        card.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            showDetails();
+          }
+        });
 
-        function carAccelerate() {
-            if (!isEngineRunning) {
-                carLog.innerText = "Cannot move! Start the engine first.";
-                return;
-            }
-            carSpeed += 20;
-            carLog.innerText = `Accelerating! Current speed: ${carSpeed} km/h`;
-            updateUI();
-            startMovingAnimation();
-        }
+        catalogue.append(card);
+      });
+    }
 
-        function carBrake() {
-            if (carSpeed > 0) {
-                carSpeed = Math.max(0, carSpeed - 20);
-                carLog.innerText = `Braking. Speed reduced to ${carSpeed} km/h`;
-                updateUI();
-                if (carSpeed === 0 && driveInterval) {
-                    clearInterval(driveInterval);
-                    driveInterval = null;
-                }
-            } else {
-                carLog.innerText = "Car is already stopped.";
-            }
-        }
+    search.addEventListener("input", renderTitles);
+    document.getElementById("closeDialog").addEventListener("click", () => dialog.close());
 
-        function carStop() {
-            if (carSpeed > 0) {
-                carLog.innerText = `Cannot turn off engine while moving at ${carSpeed} km/h! Apply brake first.`;
-                return;
-            }
-            if (isEngineRunning) {
-                isEngineRunning = false;
-                carLog.innerText = "Engine turned off.";
-                updateUI();
-            }
-        }
-
-        function startMovingAnimation() {
-            if (driveInterval) return;
-            const track = document.getElementById("track");
-            driveInterval = setInterval(() => {
-                if (carSpeed > 0) {
-                    carPosition += (carSpeed / 10);
-                    if (carPosition > track.clientWidth) {
-                        carPosition = -40; // loop back
-                    }
-                    carIcon.style.left = carPosition + "px";
-                }
-            }, 50);
-        }
-
-        // --- Theme Toggle ---
-        function toggleTheme() {
-            document.body.classList.toggle("dark-mode");
-            const btn = document.getElementById("themeBtn");
-            if (document.body.classList.contains("dark-mode")) {
-                btn.innerText = "☀️ Mode";
-                btn.style.backgroundColor = "#e2e8f0";
-                btn.style.color = "#0f172a";
-            } else {
-                btn.innerText = "🌙 Mode";
-                btn.style.backgroundColor = "#3b82f6";
-                btn.style.color = "#ffffff";
-            }
-        }
-
-        // --- QR Code ---
-        let qrcodeInstance = null;
-        function generateQR() {
-            const text = document.getElementById("qrText").value.trim();
-            const qrContainer = document.getElementById("qrcode");
-            if (!text) return alert("Please enter text or a URL!");
-            qrContainer.innerHTML = "";
-            qrcodeInstance = new QRCode(qrContainer, {
-                text: text,
-                width: 150,
-                height: 150,
-                colorDark : "#000000",
-                colorLight : "#ffffff"
-            });
-        }
-
-        // --- To-Do List ---
-        function addTodo() {
-            const input = document.getElementById("todoInput");
-            const text = input.value.trim();
-            if (!text) return alert("Task cannot be empty!");
-            const list = document.getElementById("todoList");
-            const li = document.createElement("li");
-            li.className = "todo-item";
-            li.innerHTML = `
-                <span onclick="this.parentElement.style.textDecoration = this.parentElement.style.textDecoration === 'line-through' ? 'none' : 'line-through'" style="cursor: pointer;">${text}</span>
-                <button class="del-btn" onclick="this.parentElement.remove()">Delete</button>
-            `;
-            list.appendChild(li);
-            input.value = "";
-        }
-    </script>
+    renderTitles();
+  </script>
 </body>
 </html>
-/* Endless Animated Road Track */
-.track-container {
-    background: #334155;
-    height: 110px;
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
-    margin: 15px 0;
-    /* Repeating striped road divider in the center */
-    background-image: repeating-linear-gradient(
-        to right,
-        #fbbf24 0px,
-        #fbbf24 30px,
-        transparent 30px,
-        transparent 60px
-    );
-    background-repeat: repeat-x;
-    background-size: 60px 6px;
-    background-position: 0 52px;
-}
-
-/* Fixed car position */
-.car-sprite {
-    position: absolute;
-    bottom: 15px;
-    left: 45%;
-    font-size: 42px;
-    transition: transform 0.1s ease;
-}
-// Endless scrolling road offset
-let roadOffset = 0;
-
-function startMovingAnimation() {
-    if (driveInterval) return;
-    const track = document.getElementById("track");
-
-    driveInterval = setInterval(() => {
-        if (carSpeed > 0) {
-            // Road moves backward to simulate forward car motion
-            roadOffset -= carSpeed * 0.4;
-            track.style.backgroundPosition = `${roadOffset}px 52px`;
-
-            // Subtle driving engine shake effect
-            const bounce = Math.sin(Date.now() / 60) * 1.5;
-            carIcon.style.transform = `translateY(${bounce}px)`;
-        }
-    }, 30);
-}
-
-function carBrake() {
-    if (carSpeed > 0) {
-        carSpeed = Math.max(0, carSpeed - 20);
-        carLog.innerText = `Braking. Speed reduced to ${carSpeed} km/h`;
-        updateUI();
-
-        if (carSpeed === 0 && driveInterval) {
-            clearInterval(driveInterval);
-            driveInterval = null;
-            carIcon.style.transform = "translateY(0px)";
-        }
-    } else {
-        carLog.innerText = "Car is already stopped.";
-    }
-}
